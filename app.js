@@ -23,7 +23,7 @@ document.body.classList.toggle('light', userPref === 'light');
 
 const updateIcon = () => {
   const isLight = document.body.classList.contains('light');
-  themeToggle.querySelector('.icon').textContent = isLight ? '🌞' : '🌙';
+  themeToggle.querySelector('.icon').textContent = isLight ? '☀️' : '🌙';
 };
 
 updateIcon();
@@ -245,7 +245,7 @@ const animateCounters = () => {
   const counters = [
     { element: document.getElementById('yearsExp'), target: 3, suffix: '+' },
     { element: document.getElementById('projectsShipped'), target: 20, suffix: '+' },
-    { element: document.getElementById('oss'), target: 50, suffix: '+' }
+    { element: document.getElementById('oss'), target: 2, suffix: '+' }
   ];
   
   counters.forEach(({ element, target, suffix }) => {
@@ -278,137 +278,6 @@ const statsSection = document.querySelector('.stats');
 if (statsSection) {
   statsObserver.observe(statsSection);
 }
-// Enhanced contact form with better validation and animations
-const form = document.getElementById('contactForm');
-const status = document.getElementById('formStatus');
-
-const showError = (name, msg = '') => {
-  const el = document.querySelector(`.error[data-for="${name}"]`);
-  if (el) {
-    el.textContent = msg;
-    el.style.color = '#ff6b6b';
-  }
-  
-  const input = form[name];
-  if (input) {
-    input.style.borderColor = msg ? '#ff6b6b' : 'var(--border)';
-  }
-};
-
-const showSuccess = (name) => {
-  const input = form[name];
-  if (input) {
-    input.style.borderColor = 'var(--primary)';
-  }
-};
-
-// Real-time validation
-const validateField = (field) => {
-  const value = field.value.trim();
-  const name = field.name;
-  
-  switch (name) {
-    case 'name':
-      if (!value) {
-        showError(name, 'Please enter your name');
-        return false;
-      } else if (value.length < 2) {
-        showError(name, 'Name must be at least 2 characters');
-        return false;
-      } else {
-        showError(name, '');
-        showSuccess(name);
-        return true;
-      }
-      
-    case 'email':
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!value) {
-        showError(name, 'Please enter your email');
-        return false;
-      } else if (!emailRegex.test(value)) {
-        showError(name, 'Please enter a valid email address');
-        return false;
-      } else {
-        showError(name, '');
-        showSuccess(name);
-        return true;
-      }
-      
-    case 'message':
-      if (!value) {
-        showError(name, 'Please write a message');
-        return false;
-      } else if (value.length < 10) {
-        showError(name, 'Message must be at least 10 characters');
-        return false;
-      } else {
-        showError(name, '');
-        showSuccess(name);
-        return true;
-      }
-      
-    default:
-      return true;
-  }
-};
-
-// Add real-time validation listeners
-['name', 'email', 'message'].forEach(fieldName => {
-  const field = form[fieldName];
-  if (field) {
-    field.addEventListener('blur', () => validateField(field));
-    field.addEventListener('input', () => {
-      if (field.value.trim()) {
-        validateField(field);
-      }
-    });
-  }
-});
-
-form.addEventListener('submit', (e) => {
-  e.preventDefault();
-  
-  const submitBtn = form.querySelector('button[type="submit"]');
-  const originalText = submitBtn.innerHTML;
-  
-  // Validate all fields
-  const isNameValid = validateField(form.name);
-  const isEmailValid = validateField(form.email);
-  const isMessageValid = validateField(form.message);
-  
-  if (!isNameValid || !isEmailValid || !isMessageValid) {
-    status.textContent = 'Please fix the errors above';
-    status.style.color = '#ff6b6b';
-    return;
-  }
-  
-  // Simulate form submission
-  submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-  submitBtn.disabled = true;
-  
-  setTimeout(() => {
-    status.textContent = '✅ Thanks! Your message has been sent successfully.';
-    status.style.color = 'var(--primary)';
-    form.reset();
-    
-    // Reset form styling
-    ['name', 'email', 'message'].forEach(fieldName => {
-      const field = form[fieldName];
-      if (field) {
-        field.style.borderColor = 'var(--border)';
-      }
-      showError(fieldName, '');
-    });
-    
-    submitBtn.innerHTML = originalText;
-    submitBtn.disabled = false;
-    
-    setTimeout(() => {
-      status.textContent = '';
-    }, 5000);
-  }, 2000);
-});
 
 // Initialize scroll progress and other features
 document.addEventListener('DOMContentLoaded', () => {
