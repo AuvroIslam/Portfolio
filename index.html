@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Developer Portfolio - fast, minimal, responsive." />
+  <title>Dev Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="app.js"></script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'><path fill='%23000000' d='M128 28l84 48v104l-84 48l-84-48V76z'/></svg>">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- Header / Navbar -->
+  <header class="site-header" id="top">
+    <div class="container nav">
+      <a href="#home" class="brand">
+        <span class="brand-shape" aria-hidden="true">▢</span>
+        <span class="brand-text">Your Name</span>
+      </a>
+      <nav class="nav-links" id="navLinks" aria-label="Primary">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#skills" class="nav-link">Skills</a>
+        <a href="#projects" class="nav-link">Projects</a>
+        <a href="#testimonials" class="nav-link">Testimonials</a>
+        <a href="#contact" class="nav-link">Contact</a>
+        <a href="mailto:you@example.com" class="btn btn-primary btn-small">Hire Me</a>
+      </nav>
+      <div class="nav-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Toggle theme" title="Toggle theme">
+          <span class="icon">🌙</span>
+        </button>
+        <button id="menuToggle" class="icon-btn hamburger" aria-label="Open menu" aria-controls="navLinks" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero section" id="home">
+      <div class="container grid-2">
+        <div class="hero-copy">
+          <p class="eyebrow">Hello, I'm</p>
+          <h1 class="headline">
+            <span class="gradient">Your Name</span>
+            <span class="subline">Software Engineer & Web Developer</span>
+          </h1>
+          <p class="lede">
+            I craft fast, accessible web experiences with HTML, CSS, and JavaScript.
+            Focused on DX, performance, and delightful micro‑interactions.
+          </p>
+          <div class="hero-cta">
+            <a href="#projects" class="btn btn-primary">View Projects</a>
+            <a href="#contact" class="btn btn-ghost">Get in touch</a>
+          </div>
+          <ul class="hero-meta">
+            <li>⚡ Performance-first</li>
+            <li>🔒 Type-safe & tested</li>
+            <li>📦 Reusable components</li>
+          </ul>
+        </div>
+        <div class="hero-art">
+          <div class="art-card floating">
+            <div class="dots"></div>
+            <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1200&auto=format&fit=crop" alt="Laptop on desk" loading="lazy">
+          </div>
+          <div class="stats reveal">
+            <div class="stat"><strong id="yearsExp">3+</strong><span>Years Experience</span></div>
+            <div class="stat"><strong id="projectsShipped">20+</strong><span>Projects Shipped</span></div>
+            <div class="stat"><strong id="oss">50+</strong><span>OSS Contributions</span></div>
+          </div>
+          <!-- Floating elements for visual enhancement -->
+          <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="section" id="about">
+      <div class="container grid-2">
+        <div class="about-media">
+          <div class="about-card reveal">
+            <img src="https://images.unsplash.com/photo-1603575449299-b5d26f7254a9?q=80&w=1000&auto=format&fit=crop" alt="Code on screen" loading="lazy">
+          </div>
+        </div>
+        <div class="about-copy">
+          <h2 class="h2 reveal">About</h2>
+          <p class="reveal">
+            I'm a developer who loves building clean, composable UIs and robust backends.
+            I turn complex problems into simple, elegant solutions.
+          </p>
+          <div class="pill-list reveal">
+            <span class="pill">HTML</span>
+            <span class="pill">CSS</span>
+            <span class="pill">JavaScript</span>
+            <span class="pill">TypeScript</span>
+            <span class="pill">React</span>
+            <span class="pill">Node.js</span>
+          </div>
+          <div class="callout reveal">
+            <p><strong>Currently:</strong> Open to freelance/remote roles.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="section" id="skills">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="h2 reveal">Skills & Expertise</h2>
+          <p class="muted reveal">Technologies I work with daily</p>
+        </div>
+        <div class="skills-grid">
+          <div class="skill-category reveal">
+            <div class="skill-icon">
+              <i class="fas fa-code"></i>
+            </div>
+            <h3>Frontend Development</h3>
+            <p>Creating responsive, interactive user interfaces</p>
+            <div class="skill-items">
+              <div class="skill-item">
+                <span>React</span>
+                <div class="skill-bar">
+                  <div class="skill-progress" data-width="90%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <span>JavaScript/TypeScript</span>
+                <div class="skill-bar">
+                  <div class="skill-progress" data-width="95%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <span>CSS/SASS</span>
+                <div class="skill-bar">
+                  <div class="skill-progress" data-width="92%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="skill-category reveal">
+            <div class="skill-icon">
+              <i class="fas fa-server"></i>
+            </div>
+            <h3>Backend Development</h3>
+            <p>Building scalable server-side applications</p>
+            <div class="skill-items">
+              <div class="skill-item">
+                <span>Node.js</span>
+                <div class="skill-bar">
+                  <div class="skill-progress" data-width="88%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <span>Python</span>
+                <div class="skill-bar">
+                  <div class="skill-progress" data-width="85%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <span>MongoDB</span>
+                <div class="skill-bar">
+                  <div class="skill-progress" data-width="80%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="skill-category reveal">
+            <div class="skill-icon">
+              <i class="fas fa-tools"></i>
+            </div>
+            <h3>Tools & Workflow</h3>
+            <p>Development tools and best practices</p>
+            <div class="skill-items">
+              <div class="skill-item">
+                <span>Git/GitHub</span>
+                <div class="skill-bar">
+                  <div class="skill-progress" data-width="93%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <span>Docker</span>
+                <div class="skill-bar">
+                  <div class="skill-progress" data-width="75%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <span>AWS/Cloud</span>
+                <div class="skill-bar">
+                  <div class="skill-progress" data-width="78%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="section" id="projects">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="h2 reveal">Projects</h2>
+          <p class="muted reveal">A selection of recent work.</p>
+        </div>
+        <div class="project-filters reveal">
+          <button class="filter-btn active" data-filter="all">All Projects</button>
+          <button class="filter-btn" data-filter="web">Web Apps</button>
+          <button class="filter-btn" data-filter="mobile">Mobile</button>
+          <button class="filter-btn" data-filter="ui">UI/UX</button>
+        </div>
+        <div class="projects-grid">
+          <!-- Project Card 1 -->
+          <article class="project-card reveal" data-category="web">
+            <div class="project-overlay">
+              <div class="overlay-content">
+                <h3>Analytics Dashboard</h3>
+                <p>Responsive admin dashboard with charts, dark mode, and keyboard navigation.</p>
+                <div class="overlay-actions">
+                  <a href="#" class="btn btn-primary">Live Demo</a>
+                  <a href="#" class="btn btn-ghost">View Code</a>
+                </div>
+              </div>
+            </div>
+            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1200&auto=format&fit=crop" alt="Dashboard" loading="lazy" />
+            <div class="pc-body">
+              <h3 class="h3">Analytics Dashboard</h3>
+              <p>Responsive admin dashboard with charts, dark mode, and keyboard navigation.</p>
+              <div class="tags">
+                <span>HTML</span><span>CSS</span><span>JS</span>
+              </div>
+              <div class="pc-actions">
+                <a href="#" class="btn btn-ghost-sm">Live</a>
+                <a href="#" class="btn btn-ghost-sm">Code</a>
+              </div>
+            </div>
+          </article>
+          <!-- Project Card 2 -->
+          <article class="project-card reveal" data-category="web">
+            <div class="project-overlay">
+              <div class="overlay-content">
+                <h3>E‑commerce Starter</h3>
+                <p>Starter storefront with cart, product filtering, and accessible modals.</p>
+                <div class="overlay-actions">
+                  <a href="#" class="btn btn-primary">Live Demo</a>
+                  <a href="#" class="btn btn-ghost">View Code</a>
+                </div>
+              </div>
+            </div>
+            <img src="https://images.unsplash.com/photo-1526378722484-bd91ca387e72?q=80&w=1200&auto=format&fit=crop" alt="Ecommerce" loading="lazy" />
+            <div class="pc-body">
+              <h3 class="h3">E‑commerce Starter</h3>
+              <p>Starter storefront with cart, product filtering, and accessible modals.</p>
+              <div class="tags">
+                <span>Vanilla JS</span><span>ARIA</span><span>Perf</span>
+              </div>
+              <div class="pc-actions">
+                <a href="#" class="btn btn-ghost-sm">Live</a>
+                <a href="#" class="btn btn-ghost-sm">Code</a>
+              </div>
+            </div>
+          </article>
+          <!-- Project Card 3 -->
+          <article class="project-card reveal" data-category="ui">
+            <div class="project-overlay">
+              <div class="overlay-content">
+                <h3>Landing Page Kit</h3>
+                <p>High‑converting, SEO‑friendly landing pages with semantic markup.</p>
+                <div class="overlay-actions">
+                  <a href="#" class="btn btn-primary">Live Demo</a>
+                  <a href="#" class="btn btn-ghost">View Code</a>
+                </div>
+              </div>
+            </div>
+            <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1200&auto=format&fit=crop" alt="Landing Page" loading="lazy" />
+            <div class="pc-body">
+              <h3 class="h3">Landing Page Kit</h3>
+              <p>High‑converting, SEO‑friendly landing pages with semantic markup.</p>
+              <div class="tags">
+                <span>SEO</span><span>HTML</span><span>CSS</span>
+              </div>
+              <div class="pc-actions">
+                <a href="#" class="btn btn-ghost-sm">Live</a>
+                <a href="#" class="btn btn-ghost-sm">Code</a>
+              </div>
+            </div>
+          </article>
+          <!-- Additional projects -->
+          <article class="project-card reveal" data-category="mobile">
+            <div class="project-overlay">
+              <div class="overlay-content">
+                <h3>Task Manager App</h3>
+                <p>Cross-platform mobile app for task management with offline support.</p>
+                <div class="overlay-actions">
+                  <a href="#" class="btn btn-primary">Live Demo</a>
+                  <a href="#" class="btn btn-ghost">View Code</a>
+                </div>
+              </div>
+            </div>
+            <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=1200&auto=format&fit=crop" alt="Mobile App" loading="lazy" />
+            <div class="pc-body">
+              <h3 class="h3">Task Manager App</h3>
+              <p>Cross-platform mobile app for task management with offline support.</p>
+              <div class="tags">
+                <span>React Native</span><span>SQLite</span><span>Push</span>
+              </div>
+              <div class="pc-actions">
+                <a href="#" class="btn btn-ghost-sm">Live</a>
+                <a href="#" class="btn btn-ghost-sm">Code</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="section" id="testimonials">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="h2 reveal">What Clients Say</h2>
+          <p class="muted reveal">Feedback from amazing clients</p>
+        </div>
+        <div class="testimonials-slider">
+          <div class="testimonial-track" id="testimonialTrack">
+            <div class="testimonial reveal">
+              <div class="testimonial-content">
+                <div class="stars">★★★★★</div>
+                <p>"Exceptional work quality and attention to detail. The project was delivered on time and exceeded our expectations."</p>
+              </div>
+              <div class="testimonial-author">
+                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100&auto=format&fit=crop" alt="Client" loading="lazy">
+                <div>
+                  <strong>John Smith</strong>
+                  <span>CEO, TechCorp</span>
+                </div>
+              </div>
+            </div>
+            <div class="testimonial reveal">
+              <div class="testimonial-content">
+                <div class="stars">★★★★★</div>
+                <p>"Great communication throughout the project. The final product was exactly what we envisioned and more."</p>
+              </div>
+              <div class="testimonial-author">
+                <img src="https://images.unsplash.com/photo-1494790108755-2616b612b5bb?q=80&w=100&auto=format&fit=crop" alt="Client" loading="lazy">
+                <div>
+                  <strong>Sarah Johnson</strong>
+                  <span>Founder, StartupX</span>
+                </div>
+              </div>
+            </div>
+            <div class="testimonial reveal">
+              <div class="testimonial-content">
+                <div class="stars">★★★★★</div>
+                <p>"Professional, reliable, and incredibly talented. I'll definitely be working with them again on future projects."</p>
+              </div>
+              <div class="testimonial-author">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop" alt="Client" loading="lazy">
+                <div>
+                  <strong>Michael Chen</strong>
+                  <span>CTO, InnovateLab</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-dots">
+            <button class="dot active" data-slide="0"></button>
+            <button class="dot" data-slide="1"></button>
+            <button class="dot" data-slide="2"></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="h2 reveal">Contact</h2>
+          <p class="muted reveal">Have a project in mind? Let's talk.</p>
+        </div>
+        <div class="contact-wrapper grid-2">
+          <div class="contact-info">
+            <div class="contact-item reveal">
+              <div class="contact-icon">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <div>
+                <h4>Email</h4>
+                <p>you@example.com</p>
+              </div>
+            </div>
+            <div class="contact-item reveal">
+              <div class="contact-icon">
+                <i class="fas fa-phone"></i>
+              </div>
+              <div>
+                <h4>Phone</h4>
+                <p>+1 (555) 123-4567</p>
+              </div>
+            </div>
+            <div class="contact-item reveal">
+              <div class="contact-icon">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <div>
+                <h4>Location</h4>
+                <p>San Francisco, CA</p>
+              </div>
+            </div>
+            <div class="social-links reveal">
+              <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+              <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+              <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="social-link"><i class="fab fa-dribbble"></i></a>
+            </div>
+          </div>
+          <form class="contact-form reveal" id="contactForm" novalidate>
+            <div class="form-row">
+              <label for="name">Name</label>
+              <input id="name" name="name" type="text" placeholder="Your name" required />
+              <span class="error" data-for="name"></span>
+            </div>
+            <div class="form-row">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="you@example.com" required />
+              <span class="error" data-for="email"></span>
+            </div>
+            <div class="form-row">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="5" placeholder="What can I help with?" required></textarea>
+              <span class="error" data-for="message"></span>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">
+                <span>Send Message</span>
+                <i class="fas fa-paper-plane"></i>
+              </button>
+              <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year"></span> Your Name. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="#top" class="back-to-top">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll to top button -->
+  <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Scroll to top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+</body>
+</html>
