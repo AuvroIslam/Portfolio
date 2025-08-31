@@ -1,0 +1,19 @@
+# Prevent direct access to files
+Options -Indexes
+
+# Set file size limits for uploads
+php_value upload_max_filesize 5M
+php_value post_max_size 5M
+php_value max_file_uploads 20
+
+# Allow only image files
+<FilesMatch "\.(?i:jpg|jpeg|png|gif|webp)$">
+    Order allow,deny
+    Allow from all
+</FilesMatch>
+
+# Deny access to PHP files in uploads
+<FilesMatch "\.php$">
+    Order deny,allow
+    Deny from all
+</FilesMatch>

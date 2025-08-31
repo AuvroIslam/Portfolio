@@ -1,3 +1,22 @@
+<?php
+// Database connection
+$conn = new mysqli("localhost", "root", "", "portfolio");
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Fetch about data
+$about_result = $conn->query("SELECT * FROM about WHERE id = 1");
+$about_data = $about_result->fetch_assoc();
+
+// Fetch projects data
+$projects_result = $conn->query("SELECT * FROM projects ORDER BY created_at DESC");
+
+// Fetch reviews data
+$reviews_result = $conn->query("SELECT * FROM reviews ORDER BY created_at DESC");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,7 +93,7 @@
           </div>
           <div class="stats reveal">
             <div class="stat"><strong id="yearsExp">2+</strong><span>Years Industry Experience</span></div>
-            <div class="stat"><strong id="projectsShipped">20+</strong><span>Projects Shipped</span></div>
+            <div class="stat"><strong id="projectsShipped"><?php echo $projects_result->num_rows; ?>+</strong><span>Projects Shipped</span></div>
             <div class="stat"><strong id="oss">2+</strong><span>Apps Launched in Play Store</span></div>
           </div>
           <!-- Floating elements for visual enhancement -->
@@ -92,30 +111,24 @@
       <div class="container grid-2">
         <div class="about-media">
           <div class="about-card reveal">
-            <img src="assets/about_pic.jpg" alt="Oitijya Islam Auvro - Professional photo" loading="lazy">
+            <img src="<?php echo htmlspecialchars($about_data['about_image'] ?? 'assets/about_pic.jpg'); ?>" alt="Oitijya Islam Auvro - Professional photo" loading="lazy">
           </div>
         </div>
         <div class="about-copy">
           <h2 class="h2 reveal">About</h2>
           <p class="reveal">
-            I'm a third-year Computer Science and Engineering student at KUET with a strong passion for
-            both web development and data science. I enjoy creating dynamic, interactive websites and
-            leveraging data-driven insights to solve real-world problems. Additionally, I have a keen interest in
-            Unity game development.
+            <?php echo htmlspecialchars($about_data['description'] ?? 'I\'m a third-year Computer Science and Engineering student at KUET with a strong passion for both web development and data science.'); ?>
           </p>
           <div class="pill-list reveal">
-            <span class="pill">HTML</span>
-            <span class="pill">CSS</span>
-            <span class="pill">JavaScript</span>
-            <span class="pill">React</span>
-            <span class="pill">Next.js</span>
-            <span class="pill">Python</span>
-            <span class="pill">C++</span>
-            <span class="pill">Unity</span>
-            <span class="pill">React Native</span>
+            <?php 
+            $skills = explode(',', $about_data['skills'] ?? 'HTML,CSS,JavaScript,React,Next.js,Python,C++,Unity,React Native');
+            foreach($skills as $skill): 
+            ?>
+            <span class="pill"><?php echo trim(htmlspecialchars($skill)); ?></span>
+            <?php endforeach; ?>
           </div>
           <div class="callout reveal">
-            <p><strong>Education:</strong> Bachelor of Science in CSE at KUET (Current CGPA: 3.62)</p>
+            <p><strong>Education:</strong> <?php echo htmlspecialchars($about_data['education'] ?? 'Bachelor of Science in CSE at KUET (Current CGPA: 3.62)'); ?></p>
           </div>
         </div>
       </div>
@@ -231,106 +244,46 @@
           <button class="filter-btn" data-filter="game">Games</button>
         </div>
         <div class="projects-grid">
-          <!-- Project Card 1 - Mio -->
-          <article class="project-card reveal" data-category="mobile">
+          <?php while($project = $projects_result->fetch_assoc()): ?>
+          <!-- Project Card -->
+          <article class="project-card reveal" data-category="<?php echo htmlspecialchars($project['category']); ?>">
             <div class="project-overlay">
               <div class="overlay-content">
-                <h3>Mio</h3>
-                <p>React Native and Expo application that connects users based on their favorite TV shows and movies. Available on Google Play Store.</p>
+                <h3><?php echo htmlspecialchars($project['title']); ?></h3>
+                <p><?php echo htmlspecialchars($project['description']); ?></p>
                 <div class="overlay-actions">
-                  <a href="https://play.google.com/store/apps/details?id=com.mioapp.social&pli=1" class="btn btn-primary" target="_blank">Play Store</a>
-                  <a href="https://github.com/AuvroIslam/Mio-typeScript-" class="btn btn-ghost" target="_blank">View Code</a>
+                  <?php if(!empty($project['live_url'])): ?>
+                  <a href="<?php echo htmlspecialchars($project['live_url']); ?>" class="btn btn-primary" target="_blank">Live Demo</a>
+                  <?php endif; ?>
+                  <?php if(!empty($project['code_url'])): ?>
+                  <a href="<?php echo htmlspecialchars($project['code_url']); ?>" class="btn btn-ghost" target="_blank">View Code</a>
+                  <?php endif; ?>
                 </div>
               </div>
             </div>
-            <img src="assets/mio_logo.jpg" alt="Mio App Logo" loading="lazy" />
+            <img src="<?php echo htmlspecialchars($project['image']); ?>" alt="<?php echo htmlspecialchars($project['title']); ?>" loading="lazy" />
             <div class="pc-body">
-              <h3 class="h3">Mio</h3>
-              <p>React Native and Expo application that connects users based on their favorite TV shows and movies. Available on Google Play Store.</p>
+              <h3 class="h3"><?php echo htmlspecialchars($project['title']); ?></h3>
+              <p><?php echo htmlspecialchars($project['description']); ?></p>
               <div class="tags">
-                <span>React Native</span><span>Expo</span><span>TypeScript</span><span>Play Store</span>
+                <?php 
+                $tags = explode(',', $project['tags']);
+                foreach($tags as $tag): 
+                ?>
+                <span><?php echo trim(htmlspecialchars($tag)); ?></span>
+                <?php endforeach; ?>
               </div>
               <div class="pc-actions">
-                <a href="https://play.google.com/store/apps/details?id=com.mioapp.social&pli=1" class="btn btn-ghost-sm" target="_blank">Play Store</a>
-                <a href="https://github.com/AuvroIslam/Mio-typeScript-" class="btn btn-ghost-sm" target="_blank">Code</a>
+                <?php if(!empty($project['live_url'])): ?>
+                <a href="<?php echo htmlspecialchars($project['live_url']); ?>" class="btn btn-ghost-sm" target="_blank">Live</a>
+                <?php endif; ?>
+                <?php if(!empty($project['code_url'])): ?>
+                <a href="<?php echo htmlspecialchars($project['code_url']); ?>" class="btn btn-ghost-sm" target="_blank">Code</a>
+                <?php endif; ?>
               </div>
             </div>
           </article>
-          <!-- Project Card 2 -->
-          <article class="project-card reveal" data-category="data">
-            <div class="project-overlay">
-              <div class="overlay-content">
-                <h3>GDP vs. Olympic Performance</h3>
-                <p>Explored the correlation between GDP and Olympic achievements utilizing Tableau Dashboards and created an interactive React website.</p>
-                <div class="overlay-actions">
-                  <a href="https://olympic-vs-gdp-website.vercel.app/" class="btn btn-primary" target="_blank">Live Demo</a>
-                  <a href="https://github.com/AuvroIslam/Olympic_vs_Gdp" class="btn btn-ghost" target="_blank">View Code</a>
-                </div>
-              </div>
-            </div>
-            <img src="assets/olympic_gdp_chart.png" alt="Olympic GDP Analysis Chart" loading="lazy" />
-            <div class="pc-body">
-              <h3 class="h3">GDP vs. Olympic Performance</h3>
-              <p>Explored the correlation between GDP and Olympic achievements utilizing Tableau Dashboards and created an interactive React website.</p>
-              <div class="tags">
-                <span>React</span><span>Tableau</span><span>Data Analysis</span><span>Vercel</span>
-              </div>
-              <div class="pc-actions">
-                <a href="https://olympic-vs-gdp-website.vercel.app/" class="btn btn-ghost-sm" target="_blank">Live</a>
-                <a href="https://github.com/AuvroIslam/Olympic_vs_Gdp" class="btn btn-ghost-sm" target="_blank">Code</a>
-              </div>
-            </div>
-          </article>
-          <!-- Project Card 3 -->
-          <article class="project-card reveal" data-category="data">
-            <div class="project-overlay">
-              <div class="overlay-content">
-                <h3>Waste Recognition Model</h3>
-                <p>Developed a deep learning model for waste classification using Fast.ai and Hugging Face, deployed with a web application.</p>
-                <div class="overlay-actions">
-                  <a href="https://auvroislam.github.io/wasteRecognizer/" class="btn btn-primary" target="_blank">Live Demo</a>
-                  <a href="https://github.com/AuvroIslam/wasteRecognizer" class="btn btn-ghost" target="_blank">View Code</a>
-                </div>
-              </div>
-            </div>
-            <img src="assets/waste_recognition.jpg" alt="Waste Recognition AI Model" loading="lazy" />
-            <div class="pc-body">
-              <h3 class="h3">Waste Recognition Model</h3>
-              <p>Developed a deep learning model for waste classification using Fast.ai and Hugging Face, deployed with a web application.</p>
-              <div class="tags">
-                <span>Fast.ai</span><span>Hugging Face</span><span>Deep Learning</span><span>GitHub Pages</span>
-              </div>
-              <div class="pc-actions">
-                <a href="https://auvroislam.github.io/wasteRecognizer/" class="btn btn-ghost-sm" target="_blank">Live</a>
-                <a href="https://github.com/AuvroIslam/wasteRecognizer" class="btn btn-ghost-sm" target="_blank">Code</a>
-              </div>
-            </div>
-          </article>
-          <!-- Additional projects -->
-          <article class="project-card reveal" data-category="game">
-            <div class="project-overlay">
-              <div class="overlay-content">
-                <h3>3Knot3</h3>
-                <p>Top-down 3D action game inspired by the 7 Bir Sreshtho from the 1971 Bangladesh Liberation War, built in Unity with C#.</p>
-                <div class="overlay-actions">
-                  <a href="https://studio-71.itch.io/3knot3" class="btn btn-primary" target="_blank">Live Demo</a>
-                  <a href="https://github.com/Learnathon-By-Geeky-Solutions/studio71" class="btn btn-ghost" target="_blank">View Code</a>
-                </div>
-              </div>
-            </div>
-            <img src="assets/3knot3_Banner.png" alt="3Knot3 Game Banner" loading="lazy" />
-            <div class="pc-body">
-              <h3 class="h3">3Knot3</h3>
-              <p>Top-down 3D action game inspired by the 7 Bir Sreshtho from the 1971 Bangladesh Liberation War, built in Unity with C#.</p>
-              <div class="tags">
-                <span>Unity</span><span>C#</span><span>3D Game</span>
-              </div>
-              <div class="pc-actions">
-                <a href="https://studio-71.itch.io/3knot3" class="btn btn-ghost-sm" target="_blank">Live</a>
-                <a href="https://github.com/Learnathon-By-Geeky-Solutions/studio71" class="btn btn-ghost-sm" target="_blank">Code</a>
-              </div>
-            </div>
-          </article>
+          <?php endwhile; ?>
         </div>
       </div>
     </section>
@@ -344,50 +297,35 @@
         </div>
         <div class="testimonials-slider">
           <div class="testimonial-track" id="testimonialTrack">
+            <?php 
+            $testimonial_count = 0;
+            $reviews_result->data_seek(0); // Reset result pointer
+            while($review = $reviews_result->fetch_assoc()): 
+            ?>
             <div class="testimonial reveal">
               <div class="testimonial-content">
-                <div class="stars">★★★★★</div>
-                <p>"Mio is a great social app to find friends with similar interests. Highly recommended!"</p>
+                <div class="stars">
+                  <?php echo str_repeat('★', $review['rating']) . str_repeat('☆', 5 - $review['rating']); ?>
+                </div>
+                <p>"<?php echo htmlspecialchars($review['review_text']); ?>"</p>
               </div>
               <div class="testimonial-author">
-                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100&auto=format&fit=crop" alt="Client" loading="lazy">
+                <img src="<?php echo htmlspecialchars($review['client_image']); ?>" alt="Client" loading="lazy">
                 <div>
-                  <strong>Google Play Reviewer</strong>
-                  <span>Mio App User</span>
+                  <strong><?php echo htmlspecialchars($review['client_name']); ?></strong>
+                  <span><?php echo htmlspecialchars($review['client_title']); ?></span>
                 </div>
               </div>
             </div>
-            <div class="testimonial reveal">
-              <div class="testimonial-content">
-                <div class="stars">★★★★★</div>
-                <p>"The project was submitted well within the deadline and the quality of work was excellent. Very professional."</p>
-              </div>
-              <div class="testimonial-author">
-                <img src="https://images.unsplash.com/photo-1494790108755-2616b612b5bb?q=80&w=100&auto=format&fit=crop" alt="Client" loading="lazy">
-                <div>
-                  <strong>Client from Fiverr</strong>
-                  <span>Web Development Project</span>
-                </div>
-              </div>
-            </div>
-            <div class="testimonial reveal">
-              <div class="testimonial-content">
-                <div class="stars">★★★★★</div>
-                <p>"The machine learning model was trained perfectly and achieved impressive accuracy. The deployment was seamless."</p>
-              </div>
-              <div class="testimonial-author">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop" alt="Client" loading="lazy">
-                <div>
-                  <strong>Jane Doe</strong>
-                  <span>Data Science Consultant</span>
-                </div>
-              </div>
-            </div>
+            <?php 
+            $testimonial_count++;
+            endwhile; 
+            ?>
           </div>
           <div class="testimonial-dots">
-            <button class="dot active" data-slide="0"></button>
-            <button class="dot" data-slide="1"></button>
-            <button class="dot" data-slide="2"></button>
+            <?php for($i = 0; $i < $testimonial_count; $i++): ?>
+            <button class="dot <?php echo $i === 0 ? 'active' : ''; ?>" data-slide="<?php echo $i; ?>"></button>
+            <?php endfor; ?>
           </div>
         </div>
       </div>
@@ -480,3 +418,4 @@
   </button>
 </body>
 </html>
+<?php $conn->close(); ?>
