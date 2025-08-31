@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $admin = $result->fetch_assoc();
         if (password_verify($password, $admin['password'])) {
             $_SESSION['admin'] = $admin['username'];
-            header("Location: dashboard.php");
+            header("Location: /Portfolio/admin/dashboard.php");
             exit;
         } else {
             $error = "Invalid password.";
