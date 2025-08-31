@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(!isset($_SESSION['admin'])) { header("Location: login.php"); exit; }
+if(!isset($_SESSION['admin'])) { header("Location: /Portfolio/admin/login.php"); exit; }
 $conn = new mysqli("localhost", "root", "", "portfolio");
 
 if(isset($_POST['add'])){
