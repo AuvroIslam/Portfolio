@@ -1,8 +1,40 @@
 <?php
 session_start();
+
+// Check if user has remember me cookie
+if (!isset($_SESSION['admin']) && isset($_COOKIE['remember_admin'])) {
+    $conn = new mysqli("localhost", "root", "", "portfolio");
+    if (!$conn->connect_error) {
+        $remember_token = $_COOKIE['remember_admin'];
+        $stmt = $conn->prepare("SELECT username, remember_token_created FROM admins WHERE remember_token=? LIMIT 1");
+        $stmt->bind_param("s", $remember_token);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows > 0) {
+            $admin = $result->fetch_assoc();
+            // Check if token is not older than 30 days
+            $token_age = time() - strtotime($admin['remember_token_created']);
+            if ($token_age < (30 * 24 * 60 * 60)) {
+                $_SESSION['admin'] = $admin['username'];
+                header("Location: dashboard.php");
+                exit;
+            } else {
+                // Token expired, clear it
+                $stmt = $conn->prepare("UPDATE admins SET remember_token=NULL, remember_token_created=NULL WHERE remember_token=?");
+                $stmt->bind_param("s", $remember_token);
+                $stmt->execute();
+                setcookie('remember_admin', '', time() - 3600, '/', '', false, true);
+            }
+        }
+        $conn->close();
+    }
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
+    $remember_me = isset($_POST['remember_me']);
     $conn = new mysqli("localhost", "root", "", "portfolio");
     
     if ($conn->connect_error) {
@@ -17,6 +49,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $admin = $result->fetch_assoc();
             if (password_verify($password, $admin['password'])) {
                 $_SESSION['admin'] = $admin['username'];
+                
+                // Handle Remember Me functionality
+                if ($remember_me) {
+                    // Generate secure random token
+                    $remember_token = bin2hex(random_bytes(32));
+                    
+                    // Store token in database with timestamp
+                    $stmt = $conn->prepare("UPDATE admins SET remember_token=?, remember_token_created=NOW() WHERE username=?");
+                    $stmt->bind_param("ss", $remember_token, $username);
+                    $stmt->execute();
+                    
+                    // Set cookie for 30 days
+                    setcookie('remember_admin', $remember_token, time() + (30 * 24 * 60 * 60), '/', '', false, true);
+                }
+                
                 header("Location: dashboard.php");
                 exit;
             } else {
@@ -141,6 +188,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="form-group">
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            <div class="form-group">
+                <label style="display: flex; align-items: center; font-weight: normal; cursor: pointer;">
+                    <input type="checkbox" name="remember_me" style="margin-right: 8px; width: auto;">
+                    Remember me for 30 days
+                </label>
             </div>
             <button type="submit" class="btn">Login</button>
         </form>
