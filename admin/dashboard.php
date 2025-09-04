@@ -16,79 +16,80 @@ $about_exists = $conn->query("SELECT COUNT(*) as count FROM about WHERE id = 1")
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Portfolio</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .header { background: #333; color: white; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
-        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
-        .stat-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; }
-        .stat-number { font-size: 2em; font-weight: bold; color: #007cba; }
-        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .menu-item { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; }
-        .menu-item a { text-decoration: none; color: #333; font-weight: bold; font-size: 1.1em; }
-        .menu-item:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.15); transition: all 0.3s; }
-        .quick-links { background: white; padding: 20px; border-radius: 8px; margin-top: 20px; }
-        .btn { display: inline-block; padding: 10px 20px; background: #007cba; color: white; text-decoration: none; border-radius: 4px; margin: 5px; }
-        .btn:hover { background: #005a87; }
-        .btn-danger { background: #dc3545; }
-        .btn-danger:hover { background: #c82333; }
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="admin-styles.css">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Portfolio Admin Dashboard</h1>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1><i class="fas fa-tachometer-alt" style="margin-right: 0.5rem;"></i>Dashboard</h1>
             <p>Welcome back! Manage your portfolio content from here.</p>
         </div>
 
-        <div class="stats">
+        <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-number"><?php echo $projects_count; ?></div>
-                <div>Total Projects</div>
+                <div class="stat-label">Total Projects</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number"><?php echo $reviews_count; ?></div>
-                <div>Client Reviews</div>
+                <div class="stat-label">Client Reviews</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number"><?php echo $about_exists ? 'Setup' : 'Missing'; ?></div>
-                <div>About Section</div>
+                <div class="stat-number"><?php echo $about_exists ? '✓' : '✗'; ?></div>
+                <div class="stat-label">About Section</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">Active</div>
-                <div>Portfolio Status</div>
+                <div class="stat-number">Live</div>
+                <div class="stat-label">Portfolio Status</div>
             </div>
         </div>
 
         <div class="menu-grid">
-            <div class="menu-item">
-                <h3>📁 Manage Projects</h3>
-                <p>Add, edit, or delete your portfolio projects</p>
-                <a href="project.php">Manage Projects</a>
-            </div>
-            <div class="menu-item">
-                <h3>👤 About Section</h3>
-                <p>Update your about information, skills, and education</p>
-                <a href="about.php">Edit About</a>
-            </div>
-            <div class="menu-item">
-                <h3>⭐ Client Reviews</h3>
-                <p>Manage testimonials and client feedback</p>
-                <a href="review.php">Manage Reviews</a>
-            </div>
-            <div class="menu-item">
-                <h3>🔒 Account Settings</h3>
-                <p>Change your admin password</p>
-                <a href="change_password.php">Change Password</a>
-            </div>
+            <a href="project.php" class="menu-item">
+                <h3><i class="fas fa-folder-open"></i> Manage Projects</h3>
+                <p>Add, edit, or delete your portfolio projects with images, tags, and links</p>
+                <div class="btn btn-primary">Manage Projects</div>
+            </a>
+            
+            <a href="about.php" class="menu-item">
+                <h3><i class="fas fa-user-circle"></i> About Section</h3>
+                <p>Update your about information, skills, education, and profile image</p>
+                <div class="btn btn-primary">Edit About</div>
+            </a>
+            
+            <a href="review.php" class="menu-item">
+                <h3><i class="fas fa-star"></i> Client Reviews</h3>
+                <p>Manage testimonials and client feedback with ratings and photos</p>
+                <div class="btn btn-primary">Manage Reviews</div>
+            </a>
+            
+            <a href="change_password.php" class="menu-item">
+                <h3><i class="fas fa-lock"></i> Account Settings</h3>
+                <p>Change your admin password and security settings</p>
+                <div class="btn btn-secondary">Settings</div>
+            </a>
         </div>
 
-        <div class="quick-links">
-            <h3>Quick Actions</h3>
-            <a href="../index.php" class="btn" target="_blank">View Portfolio</a>
-            <a href="project.php" class="btn">Add New Project</a>
-            <a href="review.php" class="btn">Add Review</a>
-            <a href="logout.php" class="btn btn-danger">Logout</a>
+        <div class="admin-card">
+            <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+                <a href="../index.php" class="btn btn-primary" target="_blank">
+                    <i class="fas fa-external-link-alt"></i> View Portfolio
+                </a>
+                <a href="project.php" class="btn btn-secondary">
+                    <i class="fas fa-plus"></i> Add New Project
+                </a>
+                <a href="review.php" class="btn btn-secondary">
+                    <i class="fas fa-plus"></i> Add Review
+                </a>
+                <a href="logout.php" class="btn btn-danger" style="margin-left: auto;">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
         </div>
     </div>
 </body>

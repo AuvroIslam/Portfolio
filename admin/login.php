@@ -82,90 +82,100 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login - Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin-styles.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 1rem;
         }
+        
         .login-container {
-            background: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            background: var(--bg-primary);
+            padding: 3rem;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
+            border: 1px solid var(--border-light);
         }
+        
         .login-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 2.5rem;
         }
+        
         .login-header h1 {
-            color: #333;
-            margin-bottom: 10px;
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
         }
+        
         .login-header p {
-            color: #666;
+            color: var(--text-secondary);
+            font-size: 1rem;
             margin: 0;
         }
-        .form-group {
-            margin-bottom: 20px;
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin: 1rem 0;
         }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: #333;
-            font-weight: bold;
+        
+        .checkbox-group input[type="checkbox"] {
+            width: auto !important;
+            margin: 0;
+            transform: scale(1.2);
+            accent-color: var(--primary-color);
         }
-        .form-group input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-            box-sizing: border-box;
-        }
-        .form-group input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-        .btn {
-            width: 100%;
-            padding: 12px;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
+        
+        .checkbox-group label {
+            font-weight: 500 !important;
+            color: var(--text-secondary) !important;
             cursor: pointer;
-            transition: background 0.3s;
+            text-transform: none !important;
+            letter-spacing: normal !important;
         }
-        .btn:hover {
-            background: #5a6fd8;
-        }
-        .error {
-            background: #ffebee;
-            color: #c62828;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
+        
         .back-link {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-light);
         }
+        
         .back-link a {
-            color: #667eea;
+            color: var(--primary-color);
             text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
         }
+        
         .back-link a:hover {
-            text-decoration: underline;
+            color: var(--primary-dark);
+            transform: translateX(-2px);
+        }
+        
+        .btn-login {
+            width: 100%;
+            margin-top: 1rem;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
         }
     </style>
 </head>
@@ -173,29 +183,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="login-container">
         <div class="login-header">
             <h1>Portfolio Admin</h1>
-            <p>Please login to access the admin panel</p>
+            <p>Sign in to manage your portfolio</p>
         </div>
         
         <?php if(isset($error)): ?>
-        <div class="error"><?php echo htmlspecialchars($error); ?></div>
+        <div class="alert alert-error"><?php echo htmlspecialchars($error); ?></div>
         <?php endif; ?>
         
-        <form method="post">
+        <form method="post" class="admin-form">
             <div class="form-group">
-                <label for="username">Username:</label>
+                <label for="username">Username</label>
                 <input type="text" id="username" name="username" placeholder="Enter your username" required>
             </div>
+            
             <div class="form-group">
-                <label for="password">Password:</label>
+                <label for="password">Password</label>
                 <input type="password" id="password" name="password" placeholder="Enter your password" required>
             </div>
-            <div class="form-group">
-                <label style="display: flex; align-items: center; font-weight: normal; cursor: pointer;">
-                    <input type="checkbox" name="remember_me" style="margin-right: 8px; width: auto;">
-                    Remember me for 30 days
-                </label>
+            
+            <div class="checkbox-group">
+                <input type="checkbox" id="remember_me" name="remember_me">
+                <label for="remember_me">Remember me for 30 days</label>
             </div>
-            <button type="submit" class="btn">Login</button>
+            
+            <button type="submit" class="btn btn-primary btn-login">
+                Sign In
+            </button>
         </form>
         
         <div class="back-link">

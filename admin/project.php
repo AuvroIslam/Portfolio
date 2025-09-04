@@ -73,151 +73,155 @@ $result = $conn->query("SELECT * FROM projects ORDER BY created_at DESC");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Projects - Portfolio Admin</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .header { background: #333; color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
-        .nav { margin-bottom: 20px; }
-        .nav a { margin-right: 15px; color: #007cba; text-decoration: none; }
-        .form-container { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .form-row { margin-bottom: 15px; }
-        .form-row label { display: block; margin-bottom: 5px; font-weight: bold; }
-        .form-row input, .form-row textarea, .form-row select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
-        .form-row textarea { height: 100px; resize: vertical; }
-        .btn { padding: 10px 20px; background: #007cba; color: white; border: none; border-radius: 4px; cursor: pointer; }
-        .btn:hover { background: #005a87; }
-        .projects-list { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .project-item { border: 1px solid #eee; margin-bottom: 15px; padding: 15px; border-radius: 4px; }
-        .project-item h4 { margin: 0 0 10px 0; color: #333; }
-        .project-meta { color: #666; font-size: 0.9em; margin-bottom: 10px; }
-        .project-tags span { background: #f0f0f0; padding: 2px 8px; border-radius: 3px; font-size: 0.8em; margin-right: 5px; }
-        .delete-btn { background: #dc3545; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px; font-size: 0.9em; }
-        .delete-btn:hover { background: #c82333; }
-        .success { background: #d4edda; color: #155724; padding: 10px; border-radius: 4px; margin-bottom: 20px; }
-        .error { background: #f8d7da; color: #721c24; padding: 10px; border-radius: 4px; margin-bottom: 20px; }
-        .file-upload { position: relative; display: inline-block; width: 100%; }
-        .file-upload input[type=file] { width: 100%; padding: 10px; border: 2px dashed #ddd; border-radius: 4px; background: #f9f9f9; }
-        .file-upload input[type=file]:hover { border-color: #007cba; }
-        .upload-info { font-size: 0.9em; color: #666; margin-top: 5px; }
-        .project-image { max-width: 100px; height: 60px; object-fit: cover; border-radius: 4px; margin-top: 10px; }
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="admin-styles.css">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Manage Projects</h1>
+    <div class="admin-container wide">
+        <div class="admin-header">
+            <h1><i class="fas fa-folder-open" style="margin-right: 0.5rem;"></i>Manage Projects</h1>
+            <p>Add, edit, and organize your portfolio projects</p>
         </div>
         
-        <div class="nav">
-            <a href="dashboard.php">← Dashboard</a>
-            <a href="about.php">About</a>
-            <a href="review.php">Reviews</a>
-            <a href="../index.php" target="_blank">View Portfolio</a>
+        <div class="admin-nav">
+            <a href="dashboard.php"><i class="fas fa-arrow-left"></i> Dashboard</a>
+            <a href="about.php"><i class="fas fa-user"></i> About</a>
+            <a href="review.php"><i class="fas fa-star"></i> Reviews</a>
+            <a href="../index.php" target="_blank"><i class="fas fa-external-link-alt"></i> View Portfolio</a>
         </div>
         
         <?php if(isset($success)): ?>
-        <div class="success"><?php echo htmlspecialchars($success); ?></div>
+        <div class="alert alert-success">
+            <i class="fas fa-check-circle"></i> <?php echo htmlspecialchars($success); ?>
+        </div>
         <?php endif; ?>
         
         <?php if(isset($error)): ?>
-        <div class="error"><?php echo htmlspecialchars($error); ?></div>
+        <div class="alert alert-error">
+            <i class="fas fa-exclamation-circle"></i> <?php echo htmlspecialchars($error); ?>
+        </div>
         <?php endif; ?>
         
-        <div class="form-container">
-            <h2>Add New Project</h2>
-            <form method="post" enctype="multipart/form-data">
-                <div class="form-row">
-                    <label for="title">Project Title:</label>
-                    <input type="text" name="title" id="title" placeholder="Project Title" required>
-                </div>
-                
-                <div class="form-row">
-                    <label for="description">Description:</label>
-                    <textarea name="description" id="description" placeholder="Project Description" required></textarea>
-                </div>
-                
-                <div class="form-row">
-                    <label for="image">Project Image:</label>
-                    <div class="file-upload">
-                        <input type="file" name="image" id="image" accept="image/*" required>
-                        <div class="upload-info">Supported formats: JPG, PNG, GIF, WebP (Max size: 5MB)</div>
+        <div class="admin-card">
+            <h2><i class="fas fa-plus-circle"></i> Add New Project</h2>
+            <form method="post" enctype="multipart/form-data" class="admin-form">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="form-group">
+                        <label for="title"><i class="fas fa-heading"></i> Project Title</label>
+                        <input type="text" name="title" id="title" placeholder="Enter project title" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="category"><i class="fas fa-tag"></i> Category</label>
+                        <select name="category" id="category" required>
+                            <option value="">Select Category</option>
+                            <option value="web">🌐 Web Apps</option>
+                            <option value="mobile">📱 Mobile</option>
+                            <option value="data">📊 Data Science</option>
+                            <option value="game">🎮 Games</option>
+                        </select>
                     </div>
                 </div>
                 
-                <div class="form-row">
-                    <label for="category">Category:</label>
-                    <select name="category" id="category" required>
-                        <option value="">Select Category</option>
-                        <option value="web">Web Apps</option>
-                        <option value="mobile">Mobile</option>
-                        <option value="data">Data Science</option>
-                        <option value="game">Games</option>
-                    </select>
+                <div class="form-group">
+                    <label for="description"><i class="fas fa-align-left"></i> Description</label>
+                    <textarea name="description" id="description" placeholder="Describe your project..." required></textarea>
                 </div>
                 
-                <div class="form-row">
-                    <label for="tags">Tags (comma separated):</label>
-                    <input type="text" name="tags" id="tags" placeholder="React,Node.js,MongoDB" required>
+                <div class="form-group">
+                    <label for="image"><i class="fas fa-image"></i> Project Image</label>
+                    <input type="file" name="image" id="image" accept="image/*" class="file-upload-input" required>
+                    <div class="upload-info">
+                        <i class="fas fa-info-circle"></i> Supported formats: JPG, PNG, GIF, WebP (Max size: 5MB)
+                    </div>
                 </div>
                 
-                <div class="form-row">
-                    <label for="live_url">Live Demo URL (optional):</label>
-                    <input type="url" name="live_url" id="live_url" placeholder="https://example.com">
+                <div class="form-group">
+                    <label for="tags"><i class="fas fa-tags"></i> Technologies Used</label>
+                    <input type="text" name="tags" id="tags" placeholder="React, Node.js, MongoDB" required>
+                    <div class="upload-info">Separate technologies with commas</div>
                 </div>
                 
-                <div class="form-row">
-                    <label for="code_url">Code Repository URL (optional):</label>
-                    <input type="url" name="code_url" id="code_url" placeholder="https://github.com/username/repo">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="form-group">
+                        <label for="live_url"><i class="fas fa-external-link-alt"></i> Live Demo URL</label>
+                        <input type="url" name="live_url" id="live_url" placeholder="https://example.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="code_url"><i class="fab fa-github"></i> Code Repository URL</label>
+                        <input type="url" name="code_url" id="code_url" placeholder="https://github.com/username/repo">
+                    </div>
                 </div>
                 
-                <button type="submit" name="add" class="btn">Add Project</button>
+                <button type="submit" name="add" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Add Project
+                </button>
             </form>
         </div>
         
-        <div class="projects-list">
-            <h2>Existing Projects (<?php echo $result->num_rows; ?>)</h2>
+        <div class="admin-card">
+            <h2><i class="fas fa-list"></i> Existing Projects (<?php echo $result->num_rows; ?>)</h2>
             <?php if($result->num_rows > 0): ?>
-                <?php while($row = $result->fetch_assoc()): ?>
-                <div class="project-item">
-                    <div style="display: flex; gap: 15px;">
-                        <div style="flex-shrink: 0;">
+                <div class="admin-list">
+                    <?php while($row = $result->fetch_assoc()): ?>
+                    <div class="list-item">
+                        <div class="list-item-header">
                             <?php if(!empty($row['image'])): ?>
-                            <img src="../<?php echo htmlspecialchars($row['image']); ?>" alt="<?php echo htmlspecialchars($row['title']); ?>" class="project-image">
+                            <img src="../<?php echo htmlspecialchars($row['image']); ?>" alt="<?php echo htmlspecialchars($row['title']); ?>" class="admin-image list-image">
                             <?php else: ?>
-                            <div style="width: 100px; height: 60px; background: #f0f0f0; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.8em; color: #666;">No Image</div>
+                            <div style="width: 80px; height: 50px; background: var(--bg-tertiary); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--text-light);">
+                                <i class="fas fa-image"></i>
+                            </div>
                             <?php endif; ?>
+                            <div style="flex-grow: 1;">
+                                <h4><?php echo htmlspecialchars($row['title']); ?></h4>
+                                <div class="list-item-meta">
+                                    <i class="fas fa-tag"></i> <?php echo htmlspecialchars($row['category']); ?> | 
+                                    <i class="fas fa-calendar"></i> <?php echo date('M j, Y', strtotime($row['created_at'])); ?>
+                                </div>
+                            </div>
                         </div>
-                        <div style="flex-grow: 1;">
-                            <h4><?php echo htmlspecialchars($row['title']); ?></h4>
-                            <div class="project-meta">
-                                <strong>Category:</strong> <?php echo htmlspecialchars($row['category']); ?> | 
-                                <strong>Created:</strong> <?php echo date('M j, Y', strtotime($row['created_at'])); ?>
-                            </div>
-                            <p><?php echo htmlspecialchars($row['description']); ?></p>
-                            <div class="project-tags">
-                                <strong>Tags:</strong> 
-                                <?php 
-                                $tags = explode(',', $row['tags']);
-                                foreach($tags as $tag): 
-                                ?>
-                                <span><?php echo trim(htmlspecialchars($tag)); ?></span>
-                                <?php endforeach; ?>
-                            </div>
-                            <div style="margin-top: 10px;">
-                                <?php if(!empty($row['live_url'])): ?>
-                                <a href="<?php echo htmlspecialchars($row['live_url']); ?>" target="_blank" style="margin-right: 10px;">Live Demo</a>
-                                <?php endif; ?>
-                                <?php if(!empty($row['code_url'])): ?>
-                                <a href="<?php echo htmlspecialchars($row['code_url']); ?>" target="_blank" style="margin-right: 10px;">View Code</a>
-                                <?php endif; ?>
-                                <a href="?delete=<?php echo $row['id']; ?>" class="delete-btn" onclick="return confirm('Are you sure you want to delete this project?')">Delete</a>
-                            </div>
+                        
+                        <div class="list-item-content">
+                            <?php echo htmlspecialchars($row['description']); ?>
+                        </div>
+                        
+                        <div class="tags">
+                            <?php 
+                            $tags = explode(',', $row['tags']);
+                            foreach($tags as $tag): 
+                            ?>
+                            <span class="tag"><?php echo trim(htmlspecialchars($tag)); ?></span>
+                            <?php endforeach; ?>
+                        </div>
+                        
+                        <div class="list-item-actions">
+                            <?php if(!empty($row['live_url'])): ?>
+                            <a href="<?php echo htmlspecialchars($row['live_url']); ?>" target="_blank" class="btn btn-secondary btn-sm">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                            <?php endif; ?>
+                            <?php if(!empty($row['code_url'])): ?>
+                            <a href="<?php echo htmlspecialchars($row['code_url']); ?>" target="_blank" class="btn btn-secondary btn-sm">
+                                <i class="fab fa-github"></i> Code
+                            </a>
+                            <?php endif; ?>
+                            <a href="?delete=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this project?')">
+                                <i class="fas fa-trash"></i> Delete
+                            </a>
                         </div>
                     </div>
+                    <?php endwhile; ?>
                 </div>
-                <?php endwhile; ?>
             <?php else: ?>
-                <p>No projects found. Add your first project above!</p>
+                <div style="text-align: center; padding: 3rem; color: var(--text-secondary);">
+                    <i class="fas fa-folder-open" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                    <p>No projects found. Add your first project above!</p>
+                </div>
             <?php endif; ?>
         </div>
     </div>

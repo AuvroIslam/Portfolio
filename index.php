@@ -202,8 +202,8 @@ $reviews_result = $conn->query("SELECT * FROM reviews ORDER BY created_at DESC")
             <div class="skill-icon">
               <i class="fas fa-tools"></i>
             </div>
-            <h3>Data Science & Mobile</h3>
-            <p>Analytics, visualization and mobile development</p>
+            <h3>Game and Mobile Development</h3>
+            <p>Game development and mobile application creation</p>
             <div class="skill-items">
               <div class="skill-item">
                 <span>Pandas/Fast.ai</span>
@@ -368,22 +368,23 @@ $reviews_result = $conn->query("SELECT * FROM reviews ORDER BY created_at DESC")
               </div>
             </div>
             <div class="social-links reveal">
-              <a href="https://github.com/AuvroIslam" class="social-link"><i class="fab fa-github"></i></a>
-              <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-              <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-              <a href="#" class="social-link"><i class="fab fa-dribbble"></i></a>
+              <a href="https://github.com/AuvroIslam" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile"><i class="fab fa-github"></i></a>
+              <a href="https://www.linkedin.com/in/oitijya-islam-auvro-a252a5325" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile"><i class="fab fa-linkedin"></i></a>
+              <a href="https://www.facebook.com/oitijya.islam.auvro" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Facebook Profile"><i class="fab fa-facebook"></i></a>
             </div>
           </div>
           <form class="contact-form reveal" id="contactForm" action="https://formspree.io/f/xkgvgeow" method="POST">
-            <div class="form-row">
-              <label for="name">Name</label>
-              <input id="name" name="name" type="text" placeholder="Your name" required />
-              <span class="error" data-for="name"></span>
-            </div>
-            <div class="form-row">
-              <label for="email">Email</label>
-              <input id="email" name="email" type="email" placeholder="you@example.com" required />
-              <span class="error" data-for="email"></span>
+            <div class="form-row-group">
+              <div class="form-row">
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" placeholder="Your name" required autocomplete="name" />
+                <span class="error" data-for="name"></span>
+              </div>
+              <div class="form-row">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" placeholder="you@example.com" required autocomplete="email" />
+                <span class="error" data-for="email"></span>
+              </div>
             </div>
             <div class="form-row">
               <label for="message">Message</label>

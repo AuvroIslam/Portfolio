@@ -58,86 +58,124 @@ $row = $conn->query("SELECT * FROM about WHERE id=1")->fetch_assoc();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage About - Portfolio Admin</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
-        .container { max-width: 800px; margin: 0 auto; }
-        .header { background: #333; color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
-        .nav { margin-bottom: 20px; }
-        .nav a { margin-right: 15px; color: #007cba; text-decoration: none; }
-        .form-container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .form-row { margin-bottom: 15px; }
-        .form-row label { display: block; margin-bottom: 5px; font-weight: bold; }
-        .form-row input, .form-row textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
-        .form-row textarea { height: 100px; resize: vertical; }
-        .btn { padding: 10px 20px; background: #007cba; color: white; border: none; border-radius: 4px; cursor: pointer; }
-        .btn:hover { background: #005a87; }
-        .success { background: #d4edda; color: #155724; padding: 10px; border-radius: 4px; margin-bottom: 20px; }
-        .error { background: #f8d7da; color: #721c24; padding: 10px; border-radius: 4px; margin-bottom: 20px; }
-        .file-upload { position: relative; display: inline-block; width: 100%; }
-        .file-upload input[type=file] { width: 100%; padding: 10px; border: 2px dashed #ddd; border-radius: 4px; background: #f9f9f9; }
-        .file-upload input[type=file]:hover { border-color: #007cba; }
-        .upload-info { font-size: 0.9em; color: #666; margin-top: 5px; }
-        .current-image { max-width: 200px; height: 120px; object-fit: cover; border-radius: 4px; margin-top: 10px; border: 1px solid #ddd; }
-        .image-preview { margin-top: 10px; }
-    </style>
+    <title>Manage About Section - Portfolio Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="admin-styles.css">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Manage About Section</h1>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1><i class="fas fa-user" style="margin-right: 0.5rem;"></i>Manage About Section</h1>
+            <p>Update your personal information and bio</p>
         </div>
         
-        <div class="nav">
-            <a href="dashboard.php">← Dashboard</a>
-            <a href="project.php">Projects</a>
-            <a href="review.php">Reviews</a>
-            <a href="../index.php" target="_blank">View Portfolio</a>
+        <div class="admin-nav">
+            <a href="dashboard.php"><i class="fas fa-arrow-left"></i> Dashboard</a>
+            <a href="project.php"><i class="fas fa-folder-open"></i> Projects</a>
+            <a href="review.php"><i class="fas fa-star"></i> Reviews</a>
+            <a href="../index.php" target="_blank"><i class="fas fa-external-link-alt"></i> View Portfolio</a>
         </div>
         
         <?php if(isset($success)): ?>
-        <div class="success"><?php echo htmlspecialchars($success); ?></div>
+        <div class="alert alert-success">
+            <i class="fas fa-check-circle"></i> <?php echo htmlspecialchars($success); ?>
+        </div>
         <?php endif; ?>
         
         <?php if(isset($error)): ?>
-        <div class="error"><?php echo htmlspecialchars($error); ?></div>
+        <div class="alert alert-error">
+            <i class="fas fa-exclamation-circle"></i> <?php echo htmlspecialchars($error); ?>
+        </div>
         <?php endif; ?>
         
-        <div class="form-container">
-            <h2>Update About Information</h2>
-            <form method="post" enctype="multipart/form-data">
-                <div class="form-row">
-                    <label for="description"><strong>About Description:</strong></label>
-                    <textarea name="description" id="description" rows="6" placeholder="Write your about description here..." required><?php echo htmlspecialchars($row['description'] ?? ''); ?></textarea>
-                </div>
-                
-                <div class="form-row">
-                    <label for="about_image"><strong>About Image:</strong></label>
-                    <?php if(!empty($row['about_image'])): ?>
-                    <div class="image-preview">
-                        <p>Current image:</p>
-                        <img src="../<?php echo htmlspecialchars($row['about_image']); ?>" alt="Current about image" class="current-image">
+        <div class="admin-card">
+            <h2><i class="fas fa-edit"></i> Update About Information</h2>
+            <form method="post" enctype="multipart/form-data" class="admin-form">
+                <div style="display: grid; grid-template-columns: 1fr 300px; gap: 2rem; align-items: start;">
+                    <div>
+                        <div class="form-group">
+                            <label for="description"><i class="fas fa-pen"></i> About Description</label>
+                            <textarea name="description" id="description" rows="8" placeholder="Tell your story..." required><?php echo htmlspecialchars($row['description'] ?? ''); ?></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="skills"><i class="fas fa-tools"></i> Skills</label>
+                            <input type="text" name="skills" id="skills" placeholder="HTML,CSS,JavaScript,React,Next.js,Python,C++,Unity,React Native" value="<?php echo htmlspecialchars($row['skills'] ?? ''); ?>" required>
+                            <div class="upload-info">Separate skills with commas for better display</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="education"><i class="fas fa-graduation-cap"></i> Education</label>
+                            <textarea name="education" id="education" rows="4" placeholder="Education details..." required><?php echo htmlspecialchars($row['education'] ?? ''); ?></textarea>
+                        </div>
                     </div>
-                    <?php endif; ?>
-                    <div class="file-upload">
-                        <input type="file" name="about_image" id="about_image" accept="image/*">
-                        <div class="upload-info">Upload new image (optional). Supported formats: JPG, PNG, GIF, WebP</div>
+                    
+                    <div>
+                        <div class="form-group">
+                            <label for="about_image"><i class="fas fa-camera"></i> About Image</label>
+                            <?php if(!empty($row['about_image'])): ?>
+                            <div class="current-image">
+                                <img src="../<?php echo htmlspecialchars($row['about_image']); ?>" alt="Current About Image" class="admin-image profile-preview">
+                                <div class="image-overlay">
+                                    <span>Current Image</span>
+                                </div>
+                            </div>
+                            <?php endif; ?>
+                            <input type="file" name="about_image" id="about_image" accept="image/*" class="file-upload-input">
+                            <div class="upload-info">
+                                <i class="fas fa-info-circle"></i> Supported formats: JPG, PNG, GIF, WebP (Max size: 5MB)
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="form-row">
-                    <label for="skills"><strong>Skills (comma separated):</strong></label>
-                    <input type="text" name="skills" id="skills" placeholder="HTML,CSS,JavaScript,React,Next.js,Python,C++,Unity,React Native" value="<?php echo htmlspecialchars($row['skills'] ?? ''); ?>" required>
-                </div>
-                
-                <div class="form-row">
-                    <label for="education"><strong>Education:</strong></label>
-                    <textarea name="education" id="education" rows="3" placeholder="Education details..." required><?php echo htmlspecialchars($row['education'] ?? ''); ?></textarea>
-                </div>
-                
-                <button type="submit" class="btn">Update About Section</button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Update About Section
+                </button>
             </form>
         </div>
+        
+        <?php if(isset($row) && !empty($row)): ?>
+        <div class="admin-card">
+            <h2><i class="fas fa-eye"></i> Current About Information</h2>
+            <div class="preview-content">
+                <div style="display: grid; grid-template-columns: 1fr 200px; gap: 2rem; align-items: start;">
+                    <div>
+                        <div class="preview-item">
+                            <h4><i class="fas fa-pen"></i> Description</h4>
+                            <p><?php echo nl2br(htmlspecialchars($row['description'])); ?></p>
+                        </div>
+                        
+                        <div class="preview-item">
+                            <h4><i class="fas fa-tools"></i> Skills</h4>
+                            <div class="tags">
+                                <?php 
+                                $skills = explode(',', $row['skills']);
+                                foreach($skills as $skill): 
+                                ?>
+                                <span class="tag"><?php echo trim(htmlspecialchars($skill)); ?></span>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                        
+                        <div class="preview-item">
+                            <h4><i class="fas fa-graduation-cap"></i> Education</h4>
+                            <p><?php echo nl2br(htmlspecialchars($row['education'])); ?></p>
+                        </div>
+                    </div>
+                    
+                    <?php if(!empty($row['about_image'])): ?>
+                    <div class="preview-image">
+                        <img src="../<?php echo htmlspecialchars($row['about_image']); ?>" alt="About Image" class="admin-image">
+                    </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
     </div>
 </body>
 </html>
